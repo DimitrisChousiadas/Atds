@@ -1,0 +1,15 @@
+Στο home
+
+1)
+javac -classpath `/opt/hadoop-2.6.3/bin/yarn classpath` Day.java
+
+2)MAKE JAR
+jar cf wc.jar *.class
+
+3)RUN
+/opt/hadoop-2.6.3/bin/hadoop jar ~/wc.jar Day /inputSmall /DayOutputSmall
+
+4)RESULTS
+/opt/hadoop-2.6.3/bin/hadoop fs -ls /DayOutputSmall/
+/opt/hadoop-2.6.3/bin/hadoop fs -cat /DayOutputSmall/part-r-00000
+
