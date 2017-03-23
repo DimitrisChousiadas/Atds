@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.HashSet;
+import java.lang.Integer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -24,7 +26,7 @@ public class Visits10 {
   public static class TokenizerMapper
        extends Mapper<Object, Text, Text, IntWritable>{
 
-    private final static IntWritable one = new IntWritable(1);
+    //private final static IntWritable one = new IntWritable(1);
     private Text word = new Text();
 
     public void map(Object key, Text value, Context context
@@ -32,37 +34,20 @@ public class Visits10 {
       StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
 
       String url;
+      int userId;
 
       if (itr.countTokens() == 5) {
 
-          url = itr.nextToken();
+          userId = Integer.parseInt(itr.nextToken());
           url = itr.nextToken();
           url = itr.nextToken();
           url = itr.nextToken();
           url = itr.nextToken();
 
           word.set(url);
-          context.write(word, one);
+          context.write(word, new IntWritable(userId));
 
       }
-
-    }
-  }
-
-  public static class IntSumCombiner
-       extends Reducer<Text,IntWritable,Text,IntWritable> {
-
-   private IntWritable result = new IntWritable();
-
-   public void reduce(Text key, Iterable<IntWritable> values,
-                      Context context
-                      ) throws IOException, InterruptedException {
-     int sum = 0;
-     for (IntWritable val : values) {
-       sum += val.get();
-     }
-     result.set(sum);
-     context.write(key, result);
 
     }
   }
@@ -76,9 +61,16 @@ public class Visits10 {
                        ) throws IOException, InterruptedException {
 
       int sum = 0;
+      Integer userId;
+
+      HashSet<Integer> hs = new HashSet<Integer>();
 
       for (IntWritable val : values) {
-        sum += val.get();
+          userId = new Integer(val.get());
+          if (!hs.contains(userId)) {
+              sum++;
+              hs.add(userId);
+          }
       }
 
       if (sum > 10) {
@@ -99,7 +91,6 @@ public class Visits10 {
     Job job = new Job(conf, "calculates urls with more than 10 visits");
     job.setJarByClass(Visits10.class);
     job.setMapperClass(TokenizerMapper.class);
-    job.setCombinerClass(IntSumCombiner.class);
     job.setReducerClass(IntFilterReducer.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
