@@ -41,6 +41,7 @@ public class Histogram50 {
       while (context.nextKeyValue() && count++ < 50) {
         map(context.getCurrentKey(), context.getCurrentValue(), context);
       }
+      System.out.println("Finished" + count);
       cleanup(context);
     }
 
