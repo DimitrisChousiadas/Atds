@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 import java.lang.Integer;
 import java.lang.Long;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -21,6 +24,8 @@ import org.apache.hadoop.util.GenericOptionsParser;
 
 public class WikiAol {
 
+    // TODO: all keys to lower case
+
   public static class WikiMapper
        extends Mapper<Object, Text, Text, Text>{
 
@@ -30,7 +35,6 @@ public class WikiAol {
                     ) throws IOException, InterruptedException {
 
         StringTokenizer itr = new StringTokenizer(value.toString(), "_");
-        String keywords;
         while (itr.hasMoreTokens()) {
           word.set(itr.nextToken());
           context.write(word, new Text("wiki"));
@@ -51,6 +55,8 @@ public class WikiAol {
         String userId = itr.nextToken();
         String keywords = itr.nextToken();
         String timestamp = itr.nextToken();
+        StringTokenizer foo = new StringTokenizer(timestamp);
+        timestamp = foo.nextToken() + "T" + foo.nextToken();
         queryId.set(userId + ":" + timestamp);
         StringTokenizer keys = new StringTokenizer(keywords);
         while (keys.hasMoreTokens()) {
@@ -69,17 +75,21 @@ public class WikiAol {
     public void reduce(Text key, Iterable<Text> values,
                        Context context
                        ) throws IOException, InterruptedException {
+
       boolean flag = false;
+      Collection<String> copied = new ArrayList<String>();
       for (Text val : values) {
-        flag = (new String("wiki")).equals(val.toString());
-        if (flag)
-            break;
+        copied.add(val.toString());
+        if ((new String("wiki")).equals(val.toString())) {
+            flag = true;
+        }
       }
 
+      Iterator<String> copiedItr = copied.iterator();
       String queryId;
-      for (Text val : values) {
-          queryId = val.toString();
-          if (!(new String(queryId)).equals("wiki")) {
+      while (copiedItr.hasNext()) {
+          queryId = copiedItr.next();
+          if (!((new String("wiki")).equals(queryId))) {
               if (flag) {
                   context.write(new Text(queryId), found);
               } else {
@@ -208,9 +218,10 @@ public class WikiAol {
 
     job3.setJarByClass(WikiAol.class);
     job3.setMapperClass(ForwardingMapper.class);
-    job2.setReducerClass(SumReducer.class);
-    job2.setOutputKeyClass(Text.class);
-    job2.setOutputValueClass(IntWritable.class);
+    job3.setReducerClass(SumReducer.class);
+    job3.setOutputKeyClass(Text.class);
+    job3.setOutputValueClass(IntWritable.class);
+    job3.setNumReduceTasks(1);
     FileInputFormat.addInputPath(job3, new Path(p2));
     FileOutputFormat.setOutputPath(job3, new Path(otherArgs[2]));
     System.exit(job3.waitForCompletion(true) ? 0 : 1);
