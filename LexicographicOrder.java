@@ -120,7 +120,7 @@ public class LexicographicOrder {
     //job.setOutputValueClass(IntWritable.class);
 
     // Write partition file with random sampler
-    InputSampler.Sampler<Text, Text> sampler = new InputSampler.SplitSampler<>(10);
+    InputSampler.Sampler<Text, Text> sampler = new InputSampler.RandomSampler<>(0.01, 100, 10);
     InputSampler.writePartitionFile(job, sampler);
 
     // Use TotalOrderPartitioner and default identity mapper and reducer
