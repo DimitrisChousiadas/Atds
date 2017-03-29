@@ -22,7 +22,6 @@ import org.apache.hadoop.mapreduce.lib.partition.TotalOrderPartitioner;
 import org.apache.hadoop.util.ReflectionUtils;
 
 public class TotalOrderPrep {
-
    private static final String ARG_SAMPLESIZE = "top.sample.size";
    private static final String ARG_INPUTFORMAT = "top.inputformat.class";
    private static final String ARG_MAP_SAMPLES = "top.map.samples";
