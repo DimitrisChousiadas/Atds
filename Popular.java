@@ -15,8 +15,6 @@ import org.apache.hadoop.util.GenericOptionsParser;
 
 public class Popular {
 
-    // TODO: lower case
-
   public static class TokenizerMapper1
        extends Mapper<Object, Text, Text, LongWritable>{
 
@@ -93,8 +91,8 @@ public class Popular {
       System.exit(2);
     }
 
-    Job job1 = new Job(conf, "word count tweaked");
-    Job job2 = new Job(conf, "word count tweaked");
+    Job job1 = new Job(conf, "first MapReduce job to find popular keywords");
+    Job job2 = new Job(conf, "second MapReduce job to find popular keywords");
 
     job1.setJarByClass(Popular.class);
     job1.setMapperClass(TokenizerMapper1.class);

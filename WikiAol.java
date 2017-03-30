@@ -24,8 +24,6 @@ import org.apache.hadoop.util.GenericOptionsParser;
 
 public class WikiAol {
 
-    // TODO: all keys to lower case
-
   public static class WikiMapper
        extends Mapper<Object, Text, Text, Text>{
 
@@ -193,9 +191,9 @@ public class WikiAol {
       System.exit(2);
     }
 
-    Job job1 = new Job(conf, "word count tweaked");
-    Job job2 = new Job(conf, "word count tweaked");
-    Job job3 = new Job(conf, "fhas");
+    Job job1 = new Job(conf, "first job to find the queries that can be answered by wikipedia");
+    Job job2 = new Job(conf, "second job to find the queries that can be answered by wikipedia");
+    Job job3 = new Job(conf, "third job to find the queries that can be answered by wikipedia");
 
     job1.setJarByClass(WikiAol.class);
     MultipleInputs.addInputPath(job1, new Path(otherArgs[0]), TextInputFormat.class, WikiMapper.class);

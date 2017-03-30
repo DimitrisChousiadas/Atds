@@ -84,7 +84,7 @@ public class Visits10 {
       System.err.println("Usage: visits10 <in> [<in>...] <out>");
       System.exit(2);
     }
-    Job job = new Job(conf, "calculates urls with more than 10 visits");
+    Job job = new Job(conf, "finds urls with more than 10 visits");
     job.setJarByClass(Visits10.class);
     job.setMapperClass(TokenizerMapper.class);
     job.setReducerClass(IntFilterReducer.class);

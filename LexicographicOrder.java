@@ -35,8 +35,6 @@ import org.apache.hadoop.util.ReflectionUtils;
 
 public class LexicographicOrder {
 
-    // TODO: to lower case
-
   public static class PartitionMapper
        extends Mapper<Object, Text, Text, IntWritable>{
 
@@ -104,7 +102,7 @@ public class LexicographicOrder {
     firstJob.waitForCompletion(true);
 
     // Create job and parse CLI parameters
-    Job job = new Job(conf, "hexicographical order");
+    Job job = new Job(conf, "lexicographical order");
     job.setJarByClass(LexicographicOrder.class);
 
     Path inputPath = firstOutputPath;
