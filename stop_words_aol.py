@@ -19,7 +19,10 @@ with open("user-ct-test-collection-01.txt") as f:
         keywords = keywords.split()
         keywords = [x for x in keywords if not(x.lower() in dict)]
         keywords = " ".join(keywords)
-        line[1] = keywords
+        if (keywords != ""):
+            line[1] = keywords
+        else:
+            line[1] = "housi_fytas_stop_words"
         line = "\t".join(line)
         if (line != ""):
             print(line)

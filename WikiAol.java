@@ -50,7 +50,7 @@ public class WikiAol {
                     ) throws IOException, InterruptedException {
 
         //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
-        String[] itr = value.toString().split("\t", -1);
+        String[] itr = value.toString().split("\t");
         String userId = itr[0];
         String keywords = itr[1];
         String timestamp = itr[2];

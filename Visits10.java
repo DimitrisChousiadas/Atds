@@ -31,7 +31,7 @@ public class Visits10 {
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
       //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
-      String[] itr = value.toString().split("\t", -1);
+      String[] itr = value.toString().split("\t");
       String url;
       int userId;
 
