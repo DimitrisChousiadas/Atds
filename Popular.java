@@ -7,7 +7,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-//import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -15,6 +14,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 public class Popular {
+
+    // TODO: lower case
 
   public static class TokenizerMapper1
        extends Mapper<Object, Text, Text, LongWritable>{
@@ -112,16 +113,12 @@ public class Popular {
     job2.setSortComparatorClass(LongWritable.DecreasingComparator.class);
     job2.setNumReduceTasks(1);
 
-    for (int i = 0; i < otherArgs.length - 1; ++i) {
-      FileInputFormat.addInputPath(job1, new Path(otherArgs[i]));
-    }
-    String p = "/intermediateOutput";
-    FileOutputFormat.setOutputPath(job1, new Path(p));
+    FileInputFormat.addInputPath(job1, new Path(otherArgs[0]));
+    FileOutputFormat.setOutputPath(job1, new Path(otherArgs[1]));
     job1.waitForCompletion(true);
 
-    FileInputFormat.addInputPath(job2, new Path(p));
-    FileOutputFormat.setOutputPath(job2,
-      new Path(otherArgs[otherArgs.length - 1]));
+    FileInputFormat.addInputPath(job2, new Path(otherArgs[1]));
+    FileOutputFormat.setOutputPath(job2, new Path(otherArgs[2]));
 
     System.exit(job2.waitForCompletion(true) ? 0 : 1);
   }

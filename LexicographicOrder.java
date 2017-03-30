@@ -34,6 +34,8 @@ import org.apache.hadoop.util.ReflectionUtils;
 
 public class LexicographicOrder {
 
+    // TODO: to lower case
+
   public static class PartitionMapper
        extends Mapper<Object, Text, Text, IntWritable>{
 
@@ -89,7 +91,7 @@ public class LexicographicOrder {
     Job firstJob = new Job(conf, "first Job");
     firstJob.setJarByClass(LexicographicOrder.class);
     Path firstInputPath = new Path(otherArgs[0]);
-    Path firstOutputPath = new Path("/intermediateOutput");
+    Path firstOutputPath = new Path(otherArgs[1]);
     firstJob.setMapperClass(PartitionMapper.class);
     firstJob.setCombinerClass(PartitionCombiner.class);
     firstJob.setReducerClass(PartitionReducer.class);
@@ -100,15 +102,14 @@ public class LexicographicOrder {
     FileOutputFormat.setOutputPath(firstJob, firstOutputPath);
     firstJob.waitForCompletion(true);
 
-
     // Create job and parse CLI parameters
     Job job = new Job(conf, "hexicographical order");
     job.setJarByClass(LexicographicOrder.class);
 
     Path inputPath = firstOutputPath;
-    Path partitionOutputPath = new Path(otherArgs[1]);
+    Path partitionOutputPath = new Path(otherArgs[2]);
     //Path partitionOutputPath = new Path("/user/partition10");
-    Path outputPath = new Path(otherArgs[2]);
+    Path outputPath = new Path(otherArgs[3]);
 
     // The following instructions should be executed before writing the partition file
     job.setNumReduceTasks(10);

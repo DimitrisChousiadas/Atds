@@ -202,8 +202,8 @@ public class WikiAol {
     job1.setReducerClass(FoundReducer.class);
     job1.setOutputKeyClass(Text.class);
     job1.setOutputValueClass(Text.class);
-    String p = "/intermediateOutput1";
-    FileOutputFormat.setOutputPath(job1, new Path(p));
+    //String p = "/intermediateOutput1";
+    FileOutputFormat.setOutputPath(job1, new Path(otherArgs[2]));
     job1.waitForCompletion(true);
 
     job2.setJarByClass(WikiAol.class);
@@ -211,9 +211,9 @@ public class WikiAol {
     job2.setReducerClass(UniqueFoundReducer.class);
     job2.setOutputKeyClass(Text.class);
     job2.setOutputValueClass(Text.class);
-    FileInputFormat.addInputPath(job2, new Path(p));
-    String p2 = "/intermediateOutput2";
-    FileOutputFormat.setOutputPath(job2, new Path(p2));
+    FileInputFormat.addInputPath(job2, new Path(otherArgs[2]));
+    //String p2 = "/intermediateOutput2";
+    FileOutputFormat.setOutputPath(job2, new Path(otherArgs[3]));
     job2.waitForCompletion(true);
 
     job3.setJarByClass(WikiAol.class);
@@ -222,8 +222,8 @@ public class WikiAol {
     job3.setOutputKeyClass(Text.class);
     job3.setOutputValueClass(IntWritable.class);
     job3.setNumReduceTasks(1);
-    FileInputFormat.addInputPath(job3, new Path(p2));
-    FileOutputFormat.setOutputPath(job3, new Path(otherArgs[2]));
+    FileInputFormat.addInputPath(job3, new Path(otherArgs[3]));
+    FileOutputFormat.setOutputPath(job3, new Path(otherArgs[4]));
     System.exit(job3.waitForCompletion(true) ? 0 : 1);
   }
 }
