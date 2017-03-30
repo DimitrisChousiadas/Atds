@@ -18,7 +18,7 @@ with open("user-ct-test-collection-01.txt") as f:
         keywords = line[1]
         keywords = keywords.split()
         keywords = [x for x in keywords if not(x.lower() in dict)]
-        keywords = "_".join(keywords)
+        keywords = " ".join(keywords)
         line[1] = keywords
         line = "\t".join(line)
         if (line != ""):
