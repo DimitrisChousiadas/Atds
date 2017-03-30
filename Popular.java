@@ -25,9 +25,9 @@ public class Popular {
                     ) throws IOException, InterruptedException {
 
         //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
-        String[] itr = value.toString().split("\t", -1);
-        String keywords = itr[1];
-        itr = new StringTokenizer(keywords);
+        String[] strTk = value.toString().split("\t", -1);
+        String keywords = strTk[1];
+        StringTokenizer itr = new StringTokenizer(keywords);
         while (itr.hasMoreTokens()) {
           word.set(itr.nextToken().toLowerCase());
           context.write(word, one);

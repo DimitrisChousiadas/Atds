@@ -124,7 +124,7 @@ public class Histogram1000 {
       System.err.println("Usage: wordcounttweaked <in> [<in>...] <out>");
       System.exit(2);
     }
-    Job job = new Job(conf, "histogram_100");
+    Job job = new Job(conf, "histogram_1000");
     job.setJarByClass(Histogram1000.class);
     job.setMapperClass(TokenizerMapper.class);
     job.setReducerClass(FloatSumReducer.class);
