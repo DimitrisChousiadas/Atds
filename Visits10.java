@@ -30,18 +30,15 @@ public class Visits10 {
 
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
-      StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
-
+      //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
+      String[] itr = value.toString().split("\t", -1);
       String url;
       int userId;
 
-      if (itr.countTokens() == 5) {
+      if (itr.length == 5) {
 
-          userId = Integer.parseInt(itr.nextToken());
-          url = itr.nextToken();
-          url = itr.nextToken();
-          url = itr.nextToken();
-          url = itr.nextToken();
+          userId = Integer.parseInt(itr[0]);
+          url = itr[4];
 
           word.set(url);
           context.write(word, new IntWritable(userId));

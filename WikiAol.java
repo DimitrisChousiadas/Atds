@@ -51,10 +51,11 @@ public class WikiAol {
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
 
-        StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
-        String userId = itr.nextToken();
-        String keywords = itr.nextToken();
-        String timestamp = itr.nextToken();
+        //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
+        String[] itr = value.toString().split("\t", -1);
+        String userId = itr[0];
+        String keywords = itr[1];
+        String timestamp = itr[2];
         StringTokenizer foo = new StringTokenizer(timestamp);
         timestamp = foo.nextToken() + "T" + foo.nextToken();
         queryId.set(userId + ":" + timestamp);

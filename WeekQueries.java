@@ -26,16 +26,11 @@ public class WeekQueries {
 
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
-      StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
-
+      //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
+      String[] itr = value.toString().split("\t", -1);
       String date;
       String format = "yyyy-MM-dd";
-
-      date = itr.nextToken();
-      date = itr.nextToken();
-      date = itr.nextToken();
-
-      date = date.split(" ")[0];
+      date = itr[2].split(" ")[0];
       String year = date.split("-")[0];
 
       SimpleDateFormat df = new SimpleDateFormat(format);

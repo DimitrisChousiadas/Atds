@@ -29,10 +29,9 @@ public class Success {
 
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
-      StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
-
-      int tokens = itr.countTokens();
-      if (tokens == 5) {
+      //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
+      String[] itr = value.toString().split("\t", -1);
+      if (itr.length == 5) {
           context.write(word, one);
       } else {
           context.write(word, zero);

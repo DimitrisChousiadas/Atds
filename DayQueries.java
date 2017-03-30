@@ -22,12 +22,10 @@ public class DayQueries {
 
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
-      StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
+      //StringTokenizer itr = new StringTokenizer(value.toString(), "\t");
+      String[] itr = value.toString().split("\t", -1);
       String day;
-      day = itr.nextToken();
-      day = itr.nextToken();
-      day = itr.nextToken();
-      day = day.split(" ")[0];
+      day = itr[2].split(" ")[0];
       word.set(day);
       context.write(word, one);
     }
