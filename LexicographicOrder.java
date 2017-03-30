@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.StringTokenizer;
 import java.lang.Character;
+import java.lang.Integer;
 import java.util.HashMap;
 import java.lang.Long;
 import java.util.*;
@@ -45,7 +46,7 @@ public class LexicographicOrder {
                     ) throws IOException, InterruptedException {
       StringTokenizer itr = new StringTokenizer(value.toString(), "_");
       while (itr.hasMoreTokens()) {
-          String keyword = itr.nextToken();
+          String keyword = itr.nextToken().toLowerCase();
           word.set(keyword);
           context.write(word, new IntWritable(1));
       }
@@ -121,7 +122,8 @@ public class LexicographicOrder {
     //job.setOutputValueClass(IntWritable.class);
 
     // Write partition file with random sampler
-    InputSampler.Sampler<Text, Text> sampler = new InputSampler.RandomSampler<>(0.01, 100, 10);
+    int samples = 10*Integer.parseInt(otherArgs[4]);
+    InputSampler.Sampler<Text, Text> sampler = new InputSampler.RandomSampler<>(0.01, samples, 10);
     InputSampler.writePartitionFile(job, sampler);
 
     // Use TotalOrderPartitioner and default identity mapper and reducer

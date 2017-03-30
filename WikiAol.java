@@ -36,7 +36,7 @@ public class WikiAol {
 
         StringTokenizer itr = new StringTokenizer(value.toString(), "_");
         while (itr.hasMoreTokens()) {
-          word.set(itr.nextToken());
+          word.set(itr.nextToken().toLowerCase());
           context.write(word, new Text("wiki"));
         }
     }
@@ -60,7 +60,7 @@ public class WikiAol {
         queryId.set(userId + ":" + timestamp);
         StringTokenizer keys = new StringTokenizer(keywords);
         while (keys.hasMoreTokens()) {
-          keyword.set(keys.nextToken());
+          keyword.set(keys.nextToken().toLowerCase());
           context.write(keyword, queryId);
         }
     }

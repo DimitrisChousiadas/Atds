@@ -32,7 +32,7 @@ public class Popular {
         keywords = itr.nextToken();
         itr = new StringTokenizer(keywords);
         while (itr.hasMoreTokens()) {
-          word.set(itr.nextToken());
+          word.set(itr.nextToken().toLowerCase());
           context.write(word, one);
         }
     }
